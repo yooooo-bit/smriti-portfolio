@@ -1,0 +1,25 @@
+name: Deploy to VM
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy using docker compose
+        run: |
+          cd /home/smriti/smriti-portfolio
+          git fetch origin master
+          git reset --hard origin/master
+
+          docker compose up -d --build
+          docker image prune -f
+
+          
